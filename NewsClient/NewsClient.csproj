@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\IHttpClient.cs" />
     <Compile Include="Infrastructure\IRssParser.cs" />
+    <Compile Include="Infrastructure\SyndicationFeedDecorator.cs" />
     <Compile Include="Model\NewsChannel.cs" />
     <Compile Include="Model\NewsFeed.cs" />
     <Compile Include="Model\NewsItem.cs" />
