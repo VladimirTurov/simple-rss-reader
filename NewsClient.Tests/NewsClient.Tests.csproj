@@ -113,6 +113,9 @@
     <SDKReference Include="TestPlatform, Version=11.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\HttpClientMock.cs" />
+    <Compile Include="Infrastructure\RssParserMock.cs" />
+    <Compile Include="AssertEx.cs" />
     <Compile Include="Model\NewsChannelTests.cs" />
     <Compile Include="Model\NewsFeedTests.cs" />
     <Compile Include="Model\NewsItemTests.cs" />

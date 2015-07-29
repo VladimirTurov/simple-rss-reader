@@ -1,6 +1,8 @@
 ﻿namespace NewsClient.Model
 {
 	using System;
+	using System.Threading.Tasks;
+	using Infrastructure;
 
 	public class NewsChannel
 	{
@@ -15,5 +17,14 @@
 
 		public string Name { get; private set; }
 		public Uri FeedUri { get; private set; }
+
+		public async Task<NewsFeed> GetLatestNewsAsync(IHttpClient httpClient, IRssParser rssParser)
+		{
+			if (httpClient == null) throw new ArgumentNullException("httpClient", "HTTP client cannot be null");
+			if (rssParser == null) throw new ArgumentNullException("rssParser", "RSS parser cannot be null");
+
+			var rss = await httpClient.GetStringAsync(FeedUri);
+			return rssParser.Parse(rss);
+		}
 	}
 }
