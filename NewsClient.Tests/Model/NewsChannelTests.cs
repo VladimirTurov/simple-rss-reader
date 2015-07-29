@@ -48,10 +48,12 @@
 			IHttpClient httpClient = null;
 			IRssParser rssParser = new RssParserMock();
 
-			// Exercise system
-			// Verify outcome
 			var newsChannel = new NewsChannel(name, feedUri);
+
+			// Exercise system
 			var task = newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+
+			// Verify outcome
 			await AssertEx.ThrowsExceptionAsync<ArgumentNullException>(() => task);
 
 			// Teardown
@@ -67,10 +69,12 @@
 			IHttpClient httpClient = new HttpClientMock();
 			IRssParser rssParser = null;
 
-			// Exercise system
-			// Verify outcome
 			var newsChannel = new NewsChannel(name, feedUri);
+
+			// Exercise system
 			var task = newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+
+			// Verify outcome
 			await AssertEx.ThrowsExceptionAsync<ArgumentNullException>(() => task);
 
 			// Teardown
