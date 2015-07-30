@@ -146,5 +146,31 @@
 
 			// Teardown
 		}
+
+		[TestMethod]
+		public async Task GetLatestNewsAsync_UsingGazetaRuSampleData_NoHtmlSpecialEntitiesInText()
+		{
+			// Fixture setup
+			var name = "News channel";
+			var feedUri = new Uri("http://news.com/rss");
+
+			IHttpClient httpClient = new HttpClientMock { SampleDataPreference = SampleDataPreference.GazetaRu };
+			IRssParser rssParser = new SyndicationFeedDecorator();
+
+			var newsChannel = new NewsChannel(name, feedUri);
+
+			var expectedResult = false;
+
+			// Exercise system
+			var newsFeed = await newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+			var feedItems = newsFeed.Items.ToList();
+			var thirdItem = feedItems[2];
+			var itemContainsQuotationMark = thirdItem.Text.Contains("&quot;");
+
+			// Verify outcome
+			Assert.AreEqual(itemContainsQuotationMark, expectedResult);
+
+			// Teardown
+		}
 	}
 }

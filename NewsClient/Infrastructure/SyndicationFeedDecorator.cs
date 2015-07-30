@@ -2,6 +2,8 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Net;
+	using System.Text.RegularExpressions;
 	using Windows.Web.Syndication;
 	using Model;
 
@@ -20,7 +22,7 @@
 			foreach (var syndicationItem in syndicationFeed.Items)
 			{
 				var title = syndicationItem.Title.Text;
-				var text = syndicationItem.Summary.Text;
+				var text = CutHtmlMetaFromDescription(syndicationItem);
 				var publicationDate = syndicationItem.PublishedDate;
 
 				Uri imageSource;
@@ -30,6 +32,14 @@
 				result.Add(newsItem);
 			}
 			return result;
+		}
+
+		private string CutHtmlMetaFromDescription(SyndicationItem syndicationItem)
+		{
+			var description = syndicationItem.Summary.Text;
+			description = Regex.Replace(description, @"<.+?>", string.Empty);
+			description = WebUtility.HtmlDecode(description);
+			return description;
 		}
 
 		private void TryGetImageSource(SyndicationItem syndicationItem, out Uri imageSource)
