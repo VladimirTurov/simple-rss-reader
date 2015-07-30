@@ -9,6 +9,21 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=viewModel:NewsDetailsViewModel}">
 
+    <UserControl.Resources>
+        <Storyboard x:Name="ImageFadeOutAnimation">
+            <DoubleAnimation BeginTime="0:0:0.3"
+                             Duration="0:0:0.5"
+                             To="1"
+                             Storyboard.TargetProperty="(UIElement.Opacity)"
+                             Storyboard.TargetName="Cover"
+                             d:IsOptimized="True">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
     <ScrollViewer>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,8 +33,11 @@
             </Grid.RowDefinitions>
 
             <Image  Grid.Row="0"
+                    x:Name="Cover"
+                    Opacity="0"
                     Stretch="UniformToFill"
-                    Source="{Binding ImageSource}"/>
+                    Source="{Binding ImageSource}"
+                    Loaded="OnImageCoverLoaded"/>
 
             <Border Grid.Row="0"
                     MinHeight="250"
