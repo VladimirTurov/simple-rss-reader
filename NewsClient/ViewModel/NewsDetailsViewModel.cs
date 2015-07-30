@@ -16,6 +16,7 @@
 
 		public string Title { get; private set; }
 		public string Text { get; private set; }
+		public DateTimeOffset PublicationDate { get; private set; }
 		public string PublicationDetails { get; private set; }
 		public Uri ImageSource { get; private set; }
 
@@ -23,6 +24,7 @@
 		{
 			Title = source.Title;
 			Text = source.Text;
+			PublicationDate = source.PublicationDate;
 			ImageSource = source.ImageSource;
 		}
 

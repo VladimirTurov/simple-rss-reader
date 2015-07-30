@@ -14,7 +14,6 @@
 		private readonly IHttpClient httpClient;
 		private readonly IProgressIndicator progressIndicator;
 		private readonly IRssParser rssParser;
-
 		private ObservableCollection<NewsDetailsViewModel> news;
 
 		public NewsFeedViewModel(IHttpClient httpClient, IRssParser rssParser, IProgressIndicator progressIndicator)
@@ -47,13 +46,19 @@
 
 			await progressIndicator.ShowAsync("Обновляем список новостей");
 
-			var viewModels = await Task.Run(async () => await GetNewsFromChannelsAsync(newsChannels));
+			var viewModels = await Task.Run(async () =>
+			{
+				var newsViewModels = await GetNewsViewModelsFromChannelsAsync(newsChannels);
+				SortViewModelsByDate(newsViewModels);
+				return newsViewModels;
+			});
+
 			News = new ObservableCollection<NewsDetailsViewModel>(viewModels);
 
 			await progressIndicator.HideAsync();
 		}
 
-		private async Task<List<NewsDetailsViewModel>> GetNewsFromChannelsAsync(params NewsChannel[] newsChannels)
+		private async Task<List<NewsDetailsViewModel>> GetNewsViewModelsFromChannelsAsync(params NewsChannel[] newsChannels)
 		{
 			var result = new List<NewsDetailsViewModel>();
 			foreach (var newsChannel in newsChannels)
@@ -63,6 +68,11 @@
 					result.Add(new NewsDetailsViewModel(newsChannel, newsItem));
 			}
 			return result;
+		}
+
+		private void SortViewModelsByDate(List<NewsDetailsViewModel> newsDetailsViewModels)
+		{
+			newsDetailsViewModels.Sort((first, second) => second.PublicationDate.CompareTo(first.PublicationDate));
 		}
 
 		#region INotifyPropertyChanged

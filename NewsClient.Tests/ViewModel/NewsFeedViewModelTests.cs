@@ -142,5 +142,38 @@
 
 			// Teardown
 		}
+
+		[TestMethod]
+		public async Task GetLatestNewsAsync_MockForTwoNewsChannels_ValidNewsItemsSortingOrder()
+		{
+			// Fixture setup
+			var firstItem = new NewsItem("First item", "News text", DateTimeOffset.Now, null);
+			var secondItem = new NewsItem("Second item", "News text", firstItem.PublicationDate.AddSeconds(1), null);
+
+			var requestCounter = 0;
+			Func<string, NewsFeed> parsingFunc = rss =>
+			{
+				requestCounter++;
+				if (requestCounter == 1) return new NewsFeed(new[] { firstItem });
+				return new NewsFeed(new[] { secondItem });
+			};
+
+			IHttpClient httpClient = new HttpClientMock();
+			IRssParser rssParser = new RssParserMock { CustomParsingFunction = parsingFunc };
+			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
+
+			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
+			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"));
+
+			var expectedFirstItemTitle = secondItem.Title;
+
+			// Exercise system
+			await viewModel.GetLatestNewsAsync(newsChannel, newsChannel);
+
+			// Verify outcome
+			Assert.AreEqual(viewModel.News[0].Title, expectedFirstItemTitle);
+
+			// Teardown
+		}
 	}
 }

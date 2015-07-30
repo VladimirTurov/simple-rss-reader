@@ -46,12 +46,12 @@
 			var expectedText = "News text";
 			Uri expectedImageSource = null;
 
-			var publicationDate = DateTimeOffset.Now;
+			var expectedPublicationDate = DateTimeOffset.Now;
 			var channelName = "News channel";
-			var expectedPublicationDetails = publicationDate.ToString("dd.MM.yyy - HH:mm") + " • " + channelName;
+			var expectedPublicationDetails = expectedPublicationDate.ToString("dd.MM.yyy - HH:mm") + " • " + channelName;
 
 			var newsChannel = new NewsChannel(channelName, new Uri("http://news.com/rss"));
-			var newsItem = new NewsItem(expectedTitle, expectedText, publicationDate, expectedImageSource);
+			var newsItem = new NewsItem(expectedTitle, expectedText, expectedPublicationDate, expectedImageSource);
 
 			// Exercise system
 			var viewModel = new NewsDetailsViewModel(newsChannel, newsItem);
@@ -59,6 +59,7 @@
 			// Verify outcome
 			Assert.AreEqual(viewModel.Title, expectedTitle);
 			Assert.AreEqual(viewModel.Text, expectedText);
+			Assert.AreEqual(viewModel.PublicationDate, expectedPublicationDate);
 			Assert.AreEqual(viewModel.ImageSource, expectedImageSource);
 			Assert.AreEqual(viewModel.PublicationDetails, expectedPublicationDetails);
 
