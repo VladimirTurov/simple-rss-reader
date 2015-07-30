@@ -16,8 +16,8 @@
         <Border Background="#FF247FCB">
             <TextBlock Text="Новости"
                        Foreground="White"
-			           Margin="24,12"
-			           FontSize="28" />
+                       Margin="24,12"
+                       FontSize="28" />
         </Border>
 
         <controls:NewsFeedView x:Name="Feed" Grid.Row="1" />
