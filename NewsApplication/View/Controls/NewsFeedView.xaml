@@ -1,0 +1,44 @@
+﻿<UserControl
+    x:Class="NewsApplication.View.Controls.NewsFeedView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModel="using:NewsClient.ViewModel"
+	
+    mc:Ignorable="d"
+	d:DataContext="{d:DesignInstance Type=viewModel:NewsFeedViewModel}">
+
+    <ListView ItemsSource="{Binding News}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" 
+                               Text="{Binding Title}" 
+                               TextWrapping="Wrap"
+                               FontSize="24"
+                               Margin="16,16,16,0"/>
+
+                    <TextBlock Grid.Row="1" 
+                               Text="{Binding PublicationDetails}" 
+                               TextWrapping="Wrap"
+                               FontSize="20"
+                               Foreground="#178FC6"
+                               Margin="16,4,16,0"/>
+
+                    <TextBlock Grid.Row="2" 
+                               Text="{Binding Text}" 
+                               TextWrapping="Wrap"
+                               FontSize="18"
+                               Margin="28,4,16,4"/>
+                </Grid>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</UserControl>
