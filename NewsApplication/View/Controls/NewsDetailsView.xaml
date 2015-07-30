@@ -46,6 +46,7 @@
 
             <TextBlock Grid.Row="0"
                        Text="{Binding Title}"
+                       Foreground="White"
                        TextWrapping="WrapWholeWords"
                        FontSize="36"
                        Margin="18,36"
