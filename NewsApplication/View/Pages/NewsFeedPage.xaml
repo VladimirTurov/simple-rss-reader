@@ -17,7 +17,13 @@
             <TextBlock Text="Новости"
                        Foreground="White"
                        Margin="24,12"
-                       FontSize="28" />
+                       FontSize="28">
+                <TextBlock.Transitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition FromHorizontalOffset="150" />
+                    </TransitionCollection>
+                </TextBlock.Transitions>
+            </TextBlock>
         </Border>
 
         <controls:NewsFeedView x:Name="Feed" Grid.Row="1" />
