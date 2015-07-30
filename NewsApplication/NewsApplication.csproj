@@ -91,8 +91,14 @@
     </Compile>
     <Compile Include="Infrastructure\HttpClientProxy.cs" />
     <Compile Include="Infrastructure\StatusBarProxy.cs" />
+    <Compile Include="View\Controls\NewsDetailsView.xaml.cs">
+      <DependentUpon>NewsDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Controls\NewsFeedView.xaml.cs">
       <DependentUpon>NewsFeedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Pages\NewsDetailsPage.xaml.cs">
+      <DependentUpon>NewsDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Pages\NewsFeedPage.xaml.cs">
       <DependentUpon>NewsFeedPage.xaml</DependentUpon>
@@ -117,7 +123,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\Controls\NewsDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Controls\NewsFeedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\NewsDetailsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
