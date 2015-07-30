@@ -40,7 +40,7 @@
                     Loaded="OnImageCoverLoaded"/>
 
             <Border Grid.Row="0"
-                    MinHeight="250"
+                    MinHeight="170"
                     Opacity="0.5"
                     Background="DimGray"/>
 
@@ -48,23 +48,23 @@
                        Text="{Binding Title}"
                        Foreground="White"
                        TextWrapping="WrapWholeWords"
-                       FontSize="36"
-                       Margin="18,36"
+                       FontSize="24"
+                       Margin="12,24"
                        VerticalAlignment="Bottom"
                        FontWeight="Bold"/>
 
             <TextBlock Grid.Row="1"
                        Text="{Binding Text}"
                        TextWrapping="WrapWholeWords" 
-                       FontSize="24"
-                       Margin="18"/>
+                       FontSize="16"
+                       Margin="12"/>
 
             <TextBlock Grid.Row="2"
                        Text="{Binding PublicationDetails}"
                        Foreground="#178FC6"
                        TextWrapping="WrapWholeWords" 
-                       FontSize="24"
-                       Margin="18,0,18,18"
+                       FontSize="16"
+                       Margin="12,0,12,12"
                        HorizontalAlignment="Right"/>
         </Grid>
     </ScrollViewer>
