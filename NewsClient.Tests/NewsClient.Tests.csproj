@@ -121,6 +121,8 @@
     <Compile Include="Model\NewsItemTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\NewsDetailsViewModelTests.cs" />
+    <Compile Include="ViewModel\NewsFeedViewModelTests.cs" />
+    <Compile Include="Infrastructure\ProgressIndicatorMock.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
