@@ -89,6 +89,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\HttpClientProxy.cs" />
+    <Compile Include="Infrastructure\StatusBarProxy.cs" />
     <Compile Include="View\Pages\NewsFeedPage.xaml.cs">
       <DependentUpon>NewsFeedPage.xaml</DependentUpon>
     </Compile>
