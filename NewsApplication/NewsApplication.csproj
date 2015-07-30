@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Infrastructure\HttpClientProxy.cs" />
     <Compile Include="Infrastructure\StatusBarProxy.cs" />
+    <Compile Include="View\Controls\FeedItemSelectedArgs.cs" />
     <Compile Include="View\Controls\NewsDetailsView.xaml.cs">
       <DependentUpon>NewsDetailsView.xaml</DependentUpon>
     </Compile>
