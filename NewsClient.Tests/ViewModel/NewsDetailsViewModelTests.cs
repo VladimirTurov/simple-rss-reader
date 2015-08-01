@@ -1,6 +1,7 @@
 ﻿namespace NewsClient.Tests.ViewModel
 {
 	using System;
+	using Infrastructure;
 	using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 	using NewsClient.Model;
 	using NewsClient.ViewModel;
@@ -27,7 +28,7 @@
 		public void Constructor_NullNewsItem_ExceptionThrown()
 		{
 			// Fixture setup
-			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"));
+			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"), new HttpClientMock(), new RssParserMock());
 			NewsItem newsItem = null;
 
 			// Exercise system
@@ -50,7 +51,7 @@
 			var channelName = "News channel";
 			var expectedPublicationDetails = expectedPublicationDate.ToString("dd.MM.yyy - HH:mm") + " • " + channelName;
 
-			var newsChannel = new NewsChannel(channelName, new Uri("http://news.com/rss"));
+			var newsChannel = new NewsChannel(channelName, new Uri("http://news.com/rss"), new HttpClientMock(), new RssParserMock());
 			var newsItem = new NewsItem(expectedTitle, expectedText, expectedPublicationDate, expectedImageSource);
 
 			// Exercise system

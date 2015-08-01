@@ -11,19 +11,14 @@
 
 	public class NewsFeedViewModel : INotifyPropertyChanged
 	{
-		private readonly IHttpClient httpClient;
 		private readonly IProgressIndicator progressIndicator;
-		private readonly IRssParser rssParser;
+
 		private ObservableCollection<NewsDetailsViewModel> news;
 
-		public NewsFeedViewModel(IHttpClient httpClient, IRssParser rssParser, IProgressIndicator progressIndicator)
+		public NewsFeedViewModel(IProgressIndicator progressIndicator)
 		{
-			if (httpClient == null) throw new ArgumentNullException("httpClient", "HTTP client cannot be null");
-			if (rssParser == null) throw new ArgumentNullException("rssParser", "RSS parser cannot be null");
 			if (progressIndicator == null) throw new ArgumentNullException("progressIndicator", "Progress indicator cannot be null");
 
-			this.httpClient = httpClient;
-			this.rssParser = rssParser;
 			this.progressIndicator = progressIndicator;
 		}
 
@@ -63,7 +58,7 @@
 			var result = new List<NewsDetailsViewModel>();
 			foreach (var newsChannel in newsChannels)
 			{
-				var newsFeed = await newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+				var newsFeed = await newsChannel.GetLatestNewsAsync();
 				foreach (var newsItem in newsFeed.Items)
 					result.Add(new NewsDetailsViewModel(newsChannel, newsItem));
 			}

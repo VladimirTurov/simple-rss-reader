@@ -12,49 +12,14 @@
 	public class NewsFeedViewModelTests
 	{
 		[TestMethod]
-		public void Constructor_NullHttpClient_ExceptionThrown()
-		{
-			// Fixture setup
-			IHttpClient httpClient = null;
-			IRssParser rssParser = new RssParserMock();
-			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
-
-			// Exercise system
-			// Verify outcome
-			Assert.ThrowsException<ArgumentNullException>
-				(() => new NewsFeedViewModel(httpClient, rssParser, progressIndicator));
-
-			// Teardown
-		}
-
-		[TestMethod]
-		public void Constructor_NullRssParser_ExceptionThrown()
-		{
-			// Fixture setup
-			IHttpClient httpClient = new HttpClientMock();
-			IRssParser rssParser = null;
-			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
-
-			// Exercise system
-			// Verify outcome
-			Assert.ThrowsException<ArgumentNullException>
-				(() => new NewsFeedViewModel(httpClient, rssParser, progressIndicator));
-
-			// Teardown
-		}
-
-		[TestMethod]
 		public void Constructor_NullProgressIndicator_ExceptionThrown()
 		{
 			// Fixture setup
-			IHttpClient httpClient = new HttpClientMock();
-			IRssParser rssParser = new RssParserMock();
 			IProgressIndicator progressIndicator = null;
 
 			// Exercise system
 			// Verify outcome
-			Assert.ThrowsException<ArgumentNullException>
-				(() => new NewsFeedViewModel(httpClient, rssParser, progressIndicator));
+			Assert.ThrowsException<ArgumentNullException>(() => new NewsFeedViewModel(progressIndicator));
 
 			// Teardown
 		}
@@ -63,11 +28,9 @@
 		public async Task GetLatestNewsAsync_CallWithoutParameters_ExceptionThrown()
 		{
 			// Fixture setup
-			IHttpClient httpClient = new HttpClientMock();
-			IRssParser rssParser = new RssParserMock();
 			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
 
-			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
+			var viewModel = new NewsFeedViewModel(progressIndicator);
 
 			// Exercise system
 			var task = viewModel.GetLatestNewsAsync();
@@ -82,11 +45,9 @@
 		public async Task GetLatestNewsAsync_NullNewsChannel_ExceptionThrown()
 		{
 			// Fixture setup
-			IHttpClient httpClient = new HttpClientMock();
-			IRssParser rssParser = new RssParserMock();
 			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
 
-			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
+			var viewModel = new NewsFeedViewModel(progressIndicator);
 			NewsChannel newsChannel = null;
 
 			// Exercise system
@@ -102,12 +63,10 @@
 		public async Task GetLatestNewsAsync_NullNewsFeedFromNewsChannel_ExceptionThrown()
 		{
 			// Fixture setup
-			IHttpClient httpClient = new HttpClientMock();
-			IRssParser rssParser = new RssParserMock();
 			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
 
-			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
-			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"));
+			var viewModel = new NewsFeedViewModel(progressIndicator);
+			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"), new HttpClientMock(), new RssParserMock());
 
 			// Exercise system
 			var task = viewModel.GetLatestNewsAsync(newsChannel);
@@ -129,8 +88,8 @@
 			IRssParser rssParser = new RssParserMock { CustomParsingFunction = parsingFunc };
 			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
 
-			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
-			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"));
+			var viewModel = new NewsFeedViewModel(progressIndicator);
+			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"), httpClient, rssParser);
 
 			var expectedNewsCount = 2;
 
@@ -162,8 +121,8 @@
 			IRssParser rssParser = new RssParserMock { CustomParsingFunction = parsingFunc };
 			IProgressIndicator progressIndicator = new ProgressIndicatorMock();
 
-			var viewModel = new NewsFeedViewModel(httpClient, rssParser, progressIndicator);
-			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"));
+			var viewModel = new NewsFeedViewModel(progressIndicator);
+			var newsChannel = new NewsChannel("News channel", new Uri("http://news.com/rss"), httpClient, rssParser);
 
 			var expectedFirstItemTitle = secondItem.Title;
 

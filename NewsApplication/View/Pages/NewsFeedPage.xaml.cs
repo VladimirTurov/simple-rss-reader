@@ -21,13 +21,16 @@
       {
          if (e.NavigationMode == NavigationMode.New)
          {
-            var vm = new NewsFeedViewModel(new HttpClientProxy(), new SyndicationFeedDecorator(), new StatusBarProxy());
+            var vm = new NewsFeedViewModel(new StatusBarProxy());
 
             Feed.DataContext = vm;
             Feed.FeedItemSelected += OnFeedItemSelected;
 
-            var lentaRu = new NewsChannel("Lenta.ru", new Uri("http://lenta.ru/rss"));
-            var gazetaRu = new NewsChannel("Gazeta.ru", new Uri("http://www.gazeta.ru/export/rss/lenta.xml"));
+            IHttpClient httpClient = new HttpClientProxy();
+            IRssParser rssParser = new SyndicationFeedDecorator();
+
+            var lentaRu = new NewsChannel("Lenta.ru", new Uri("http://lenta.ru/rss"), httpClient, rssParser);
+            var gazetaRu = new NewsChannel("Gazeta.ru", new Uri("http://www.gazeta.ru/export/rss/lenta.xml"), httpClient, rssParser);
             await vm.GetLatestNewsAsync(lentaRu, gazetaRu);
          }
       }

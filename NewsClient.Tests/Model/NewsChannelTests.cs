@@ -17,10 +17,12 @@
 			// Fixture setup
 			string name = null;
 			var feedUri = new Uri("http://news.com/rss");
+			var httpClient = new HttpClientMock();
+			var rssParser = new RssParserMock();
 
 			// Exercise system
 			// Verify outcome
-			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri));
+			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri, httpClient, rssParser));
 
 			// Teardown
 		}
@@ -31,52 +33,44 @@
 			// Fixture setup
 			var name = "News channel";
 			Uri feedUri = null;
+			var httpClient = new HttpClientMock();
+			var rssParser = new RssParserMock();
 
 			// Exercise system
 			// Verify outcome
-			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri));
+			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri, httpClient, rssParser));
 
 			// Teardown
 		}
 
 		[TestMethod]
-		public async Task GetLatestNewsAsync_NullHttpClient_ExceptionThrown()
+		public void Constructor_NullHttpClient_ExceptionThrown()
 		{
 			// Fixture setup
 			var name = "News channel";
 			var feedUri = new Uri("http://news.com/rss");
-
 			IHttpClient httpClient = null;
-			IRssParser rssParser = new RssParserMock();
-
-			var newsChannel = new NewsChannel(name, feedUri);
+			var rssParser = new RssParserMock();
 
 			// Exercise system
-			var task = newsChannel.GetLatestNewsAsync(httpClient, rssParser);
-
 			// Verify outcome
-			await AssertEx.ThrowsExceptionAsync<ArgumentNullException>(() => task);
+			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri, httpClient, rssParser));
 
 			// Teardown
 		}
 
 		[TestMethod]
-		public async Task GetLatestNewsAsync_NullRssParser_ExceptionThrown()
+		public void Constructor_NullRssParser_ExceptionThrown()
 		{
 			// Fixture setup
 			var name = "News channel";
 			var feedUri = new Uri("http://news.com/rss");
-
-			IHttpClient httpClient = new HttpClientMock();
+			var httpClient = new HttpClientMock();
 			IRssParser rssParser = null;
 
-			var newsChannel = new NewsChannel(name, feedUri);
-
 			// Exercise system
-			var task = newsChannel.GetLatestNewsAsync(httpClient, rssParser);
-
 			// Verify outcome
-			await AssertEx.ThrowsExceptionAsync<ArgumentNullException>(() => task);
+			Assert.ThrowsException<ArgumentNullException>(() => new NewsChannel(name, feedUri, httpClient, rssParser));
 
 			// Teardown
 		}
@@ -88,10 +82,10 @@
 			var name = "News channel";
 			var feedUri = new Uri("http://news.com/rss");
 
-			IHttpClient httpClient = new HttpClientMock {SampleDataPreference = SampleDataPreference.LentaRu};
+			IHttpClient httpClient = new HttpClientMock { SampleDataPreference = SampleDataPreference.LentaRu };
 			IRssParser rssParser = new SyndicationFeedDecorator();
 
-			var newsChannel = new NewsChannel(name, feedUri);
+			var newsChannel = new NewsChannel(name, feedUri, httpClient, rssParser);
 
 			var expectedCount = 3;
 			var expectedFirstItemTitle = "На побережье французского острова в Индийском океане нашли обломок самолета";
@@ -100,7 +94,7 @@
 			var expectedFirstItemImageSource = new Uri("http://icdn.lenta.ru/images/2015/07/29/18/20150729183227894/pic_df052e4cec4b74c4b14d369026bcef69.jpg");
 
 			// Exercise system
-			var newsFeed = await newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+			var newsFeed = await newsChannel.GetLatestNewsAsync();
 			var feedItems = newsFeed.Items.ToList();
 			var firstItem = feedItems[0];
 
@@ -124,7 +118,7 @@
 			IHttpClient httpClient = new HttpClientMock { SampleDataPreference = SampleDataPreference.GazetaRu };
 			IRssParser rssParser = new SyndicationFeedDecorator();
 
-			var newsChannel = new NewsChannel(name, feedUri);
+			var newsChannel = new NewsChannel(name, feedUri, httpClient, rssParser);
 
 			var expectedCount = 3;
 			var expectedFirstItemTitle = "Минюст включил Национальный фонд в поддержку демократии в список нежелательных организаций";
@@ -133,7 +127,7 @@
 			Uri expectedFirstItemImageSource = null;
 
 			// Exercise system
-			var newsFeed = await newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+			var newsFeed = await newsChannel.GetLatestNewsAsync();
 			var feedItems = newsFeed.Items.ToList();
 			var firstItem = feedItems[0];
 
@@ -157,12 +151,12 @@
 			IHttpClient httpClient = new HttpClientMock { SampleDataPreference = SampleDataPreference.GazetaRu };
 			IRssParser rssParser = new SyndicationFeedDecorator();
 
-			var newsChannel = new NewsChannel(name, feedUri);
+			var newsChannel = new NewsChannel(name, feedUri, httpClient, rssParser);
 
 			var expectedResult = false;
 
 			// Exercise system
-			var newsFeed = await newsChannel.GetLatestNewsAsync(httpClient, rssParser);
+			var newsFeed = await newsChannel.GetLatestNewsAsync();
 			var feedItems = newsFeed.Items.ToList();
 			var thirdItem = feedItems[2];
 			var itemContainsQuotationMark = thirdItem.Text.Contains("&quot;");
